@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5 API - Web Socket</title>
+
+    <style>
+
+        button {
+            width: 100px;
+            height: 30px;
+        }
+
+        input {
+            height: 24px;
+        }
+
+    </style>
+
+
+    <script>
+
+        /* var WebSocket: {
+            new (url: string, protocols?: string | string[]): WebSocket;
+
+            prototype: WebSocket;
+
+            readonly CLOSED: number;
+            readonly CLOSING: number;
+            readonly CONNECTING: number;
+            readonly OPEN: number;
+
+            event onopen
+            event onclose
+            event onmessage
+            event onerror
+        } */
+
+
+        function setWebSocketEventHandler(ws) {
+            console.log('setWebSocketEventHandler(ws) invoked.')
+
+            if(ws) {
+
+                ws.onopen = e => {
+                    console.group('ws.onopen invoked.', e)
+                
+                    console.log('+ ws:', ws)
+                    console.log('+ Connected.')
+
+                    // console.log('+ this:', this)        // this === window
+
+                    console.groupEnd()
+                } // onopen
+
+                ws.onclose = e => {
+                    console.group('ws.onclose invoked.', e)
+
+                    console.log('+ ws:', ws)
+                    console.log('+ Disconnected.')
+
+                    console.groupEnd()
+                } // onclose
+
+                ws.onerror = e => {
+                    console.group('ws.onerror invoked.', e)
+
+                    console.log('+ ws:', ws)
+                    console.log('+ Error:', e)
+
+                    console.groupEnd()
+                } // onerror
+
+                ws.onmessage = e => {
+                    console.group('ws.onmessage invoked.', e)
+
+                    console.log('+ ws:', ws)
+                    console.log('+ Recv:', e.data)
+
+                    let ul = document.querySelector('#wrapper > #ul')
+
+                    let newLi = document.createElement('li')
+                    newLi.innerHTML = e.data
+
+                    ul.appendChild(newLi)
+
+                    console.groupEnd()
+                } // onmessage
+
+            } // if
+        } // setEventHandler
+
+
+        function open(e) {
+            console.group('2. open(e)')
+
+            // var WebSocket: new (url: string, protocols?: string | string[]) => WebSocket
+            if(!ws) {
+                ws = new WebSocket("ws://localhost:8080/echo")
+                setWebSocketEventHandler(ws)
+            } // if
+
+            console.groupEnd()
+        } // open
+
+
+        function close(e) {
+            console.group('3. close(e)')
+
+            if(ws) {
+                ws.close()
+                ws = null
+            } // if
+
+            console.groupEnd()
+        } // close
+
+
+        function send(e) {
+            console.group('4. send(e)')
+
+            if(ws) {
+                let data = document.querySelector('#data').value
+                console.log(`+ data to send: ${data}`)
+
+                ws.send(data)
+
+                console.log('+ SENT.')
+            } // if
+
+            console.groupEnd()
+        } // send
+
+        //-------------------------------------------------------//
+
+        var ws = null
+
+
+        window.addEventListener('load', () => {
+            console.clear()
+            console.group('1. window.onload')
+
+            var openBtn  = document.querySelector('#openBtn')
+            var closeBtn    = document.querySelector('#closeBtn')
+            var sendBtn     = document.querySelector('#sendBtn')
+
+            openBtn.addEventListener('click', open)     // onclick
+            closeBtn.addEventListener('click', close)   // onclick
+            sendBtn.addEventListener('click', send)     // onclick
+
+            console.groupEnd()
+        })  // onload
+
+    </script>
+
+</head>
+<body>
+    <button type="button" id="openBtn">Open</button>
+    <button type="button" id="closeBtn">Close</button>
+
+    <br><br>
+
+    <input type="text" id="data">
+
+    <button type="button" id="sendBtn">Send</button>
+
+    <p></p>
+
+    <div id="wrapper">
+        <ul id="ul"></ul>
+    </div>
+</body>
+</html>

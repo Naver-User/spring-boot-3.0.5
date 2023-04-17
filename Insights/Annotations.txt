@@ -1,0 +1,1234 @@
+******************************************************
+* Description For Important Spring Boot Annotations
+******************************************************
+
+
+======================================
+1. @SpringBootApplication
+======================================
+
+@Target(value={TYPE})
+
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(
+	excludeFilters={@Filter(type=CUSTOM, classes={TypeExcludeFilter.class}), 
+	@Filter(type=CUSTOM, classes={AutoConfigurationExcludeFilter.class})}
+)
+
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+Indicates a configuration class that declares one or more @Bean methods and also triggers auto-configuration and component scanning. This is a convenience annotation that is equivalent to declaring @Configuration, @EnableAutoConfiguration and @ComponentScan.
+
+---
+
+하나 이상의 @Bean 메서드를 선언하고 자동구성 및 구성요소 검색을 트리거하는 구성 클래스를 나타냅니다. 이것은 @Configuration, @EnableAutoConfiguration 및 @ComponentScan을 선언하는 것과 동일한 편의 주석입니다.
+
+
+======================================
+2. @SpringBootConfiguration
+======================================
+
+@Target(value={TYPE})
+@Configuration
+@Indexed
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Indicates that a class provides Spring Boot application @Configuration. Can be used as an alternative to the Spring's standard @Configuration annotation so that configuration can be foundautomatically (for example in tests). 
+
+Application should only ever include one @SpringBootConfiguration andmost idiomatic Spring Boot applications will inherit it from @SpringBootApplication.
+
+---
+
+클래스가 Spring Boot 애플리케이션 @Configuration을 제공함을 나타냅니다. 구성을 자동으로 찾을 수 있도록(예: 테스트에서) Spring의 표준 @Configuration 주석에 대한 대안으로 사용할 수 있습니다.
+
+애플리케이션은 하나의 @SpringBootConfiguration만 포함해야 하며, 대부분의 관용적 Spring Boot 애플리케이션은 @SpringBootApplication에서 이를 상속합니다.
+
+
+======================================
+3. @EnableAutoConfiguration
+======================================
+
+@Target(value={TYPE})
+@AutoConfigurationPackage
+@Import(value={AutoConfigurationImportSelector.class})
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+Enable auto-configuration of the Spring Application Context, attempting to guess and configure beans that you are likely to need. Auto-configuration classes are usuallyapplied based on your classpath and what beans you have defined. For example, if youhave tomcat-embedded.jar on your classpath you are likely to want a TomcatServletWebServerFactory (unless you have defined your own ServletWebServerFactory bean). 
+
+When using @SpringBootApplication, the auto-configuration of the context is automatically enabled and adding this annotation has therefore noadditional effect. 
+
+Auto-configuration tries to be as intelligent as possible and will back-away as youdefine more of your own configuration. You can always manually exclude() anyconfiguration that you never want to apply (use excludeName() if you don'thave access to them). You can also exclude them through the spring.autoconfigure.exclude property. Auto-configuration is always appliedafter user-defined beans have been registered. 
+
+The package of the class that is annotated with @EnableAutoConfiguration, usually through @SpringBootApplication, has specific significance and is often used as a 'default'. For example, it will be used when scanning for @Entityclasses. It is generally recommended that you place @EnableAutoConfiguration(if you're not using @SpringBootApplication) in a root package so that all sub-packages and classes can be searched. 
+
+Auto-configuration classes are regular Spring @Configuration beans. They are located using ImportCandidates. Generally auto-configuration beans are @Conditional beans (most often using @ConditionalOnClass and @ConditionalOnMissingBean annotations).
+
+---
+
+Spring 애플리케이션 컨텍스트의 자동구성을 활성화하여 필요할 가능성이 있는 빈을 추측하고 구성합니다. 자동구성 클래스는 일반적으로 클래스 경로와 정의한 빈을 기반으로 적용됩니다. 예를 들어 클래스 경로에 tomcat-embedded.jar가 있는 경우 TomcatServletWebServerFactory를 원할 가능성이 높습니다(자신의 ServletWebServerFactory 빈을 정의하지 않은 경우).
+
+@SpringBootApplication을 사용할 때 컨텍스트의 자동구성이 자동으로 활성화되므로 이 주석을 추가해도 추가효과가 없습니다.
+
+자동구성은 가능한 한 지능적이 되려고 노력하며 자신의 구성을 더 많이 정의하면 뒤로 물러납니다. 적용하지 않으려는 구성은 항상 수동으로 exclude()할 수 있습니다(액세스할 수 없는 경우 excludeName() 사용). spring.autoconfigure.exclude 속성을 통해 제외할 수도 있습니다. 자동구성은 사용자 정의 빈이 등록된 후에 항상 적용됩니다.
+
+일반적으로 @SpringBootApplication을 통해 @EnableAutoConfiguration 주석이 달린 클래스의 패키지는 특별한 의미가 있으며 '기본값'으로 자주 사용됩니다. 예를 들어 @Entityclasses를 스캔할 때 사용됩니다. 일반적으로 모든 하위 패키지와 클래스를 검색할 수 있도록 @EnableAutoConfiguration (@SpringBootApplication을 사용하지 않는경우)을 루트 패키지에 배치하는 것이 좋습니다.
+
+자동구성클래스는 일반 Spring @Configurationbeans입니다. ImportCandidates를 사용하여 찾습니다. 일반적으로 자동구성 빈은 @Conditional 빈입니다(대부분 @ConditionalOnClass 및 @ConditionalOnMissingBean 주석 사용).
+
+
+
+======================================
+4. @AutoConfigurationPackage
+======================================
+
+@Target(value={TYPE})
+@Import(value={Registrar.class})
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+Registers packages with AutoConfigurationPackages. When no base packages or base package classes are specified, thepackage of the annotated class is registered.
+
+---
+
+AutoConfigurationPackages에 패키지를 등록합니다. 기본 패키지 또는 기본 패키지 클래스가 지정되지 않은 경우 주석이 달린 클래스의 패키지가 등록됩니다.
+
+
+======================================
+5. @RestController
+======================================
+
+@Target(value={TYPE})
+@Controller
+@ResponseBody
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+A convenience annotation that is itself annotated with @Controller and @ResponseBody. 
+
+Types that carry this annotation are treated as controllers where @RequestMapping methods assume @ResponseBody semantics by default. 
+
+NOTE: @RestController is processed if an appropriate HandlerMapping-HandlerAdapter pair is configured such as the RequestMappingHandlerMapping-RequestMappingHandlerAdapterpair which are the default in the MVC Java config and the MVC namespace.
+
+---
+
+@Controller 및 @ResponseBody로 주석이 달린 편의 주석입니다.
+
+이 주석을 전달하는 유형은 @RequestMapping 메서드가 기본적으로 @ResponseBody 의미 체계를 가정하는 컨트롤러로 처리됩니다.
+
+참고: @RestController는 MVC Java 구성 및 MVC 네임스페이스의 기본값인 RequestMappingHandlerMapping-RequestMappingHandlerAdapterpair와 같은 적절한 HandlerMapping-HandlerAdapter 쌍이 구성된 경우 처리됩니다.
+
+
+======================================
+6. @ResponseBody
+======================================
+
+@Target(value={TYPE, METHOD})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Annotation that indicates a method return value should be bound to the webresponse body. Supported for annotated handler methods. 
+
+As of version 4.0 this annotation can also be added on the type level inwhich case it is inherited and does not need to be added on the method level.
+
+---
+
+메서드 반환 값을 나타내는 주석은 webresponse 본문에 바인딩되어야 합니다. 주석 처리기 메서드에 대해 지원됩니다.
+버전 4.0부터 이 주석은 유형 수준에서도 추가할 수 있으며 이 경우 상속되어 메서드 수준에서 추가할 필요가 없습니다.
+
+
+======================================
+7. @Controller
+======================================
+
+@Target(value={TYPE})
+@Component
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Indicates that an annotated class is a "Controller" (e.g. a web controller). 
+
+This annotation serves as a specialization of @Component, allowing for implementation classes to be autodetected through classpath scanning.
+It is typically used in combination with annotated handler methods based on the org.springframework.web.bind.annotation.RequestMapping annotation.
+
+---
+
+주석이 달린 클래스가 "컨트롤러"(예: 웹 컨트롤러)임을 나타냅니다.
+
+이 주석은 @Component의 특수화 역할을 하여 클래스경로 스캔을 통해 구현 클래스를 자동감지 할 수 있습니다.
+일반적으로 org.springframework.web.bind.annotation.RequestMapping 주석을 기반으로 주석 처리기 메서드와 함께 사용됩니다.
+
+
+======================================
+8. @ComponentScan
+======================================
+
+@Target(value={TYPE})
+@Repeatable(value=ComponentScans.class)
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Configures component scanning directives for use with @Configuration classes.Provides support parallel with Spring XML's <context:component-scan> element. 
+
+Either basePackageClasses or basePackages (or its alias value) may be specified to define specific packages to scan. If specificpackages are not defined, scanning will occur from the package of theclass that declares this annotation. 
+
+Note that the <context:component-scan> element has an annotation-config attribute; however, this annotation does not. This is becausein almost all cases when using @ComponentScan, default annotation configprocessing (e.g. processing @Autowired and friends) is assumed. Furthermore,when using AnnotationConfigApplicationContext, annotation config processors arealways registered, meaning that any attempt to disable them at the @ComponentScan level would be ignored. 
+
+---
+
+@Configuration 클래스와 함께 사용할 컴포넌트 스캐닝 지시문을 구성합니다.
+Spring XML의 <context:component-scan> 요소와 병렬 지원을 제공합니다.
+검사할 특정 패키지를 정의하기 위해 basePackageClasses 또는 basePackages(또는 해당 별칭 값)를 지정할 수 있습니다.
+특정 패키지가 정의되지 않은 경우 이 주석을 선언한 클래스의 패키지에서 스캔이 발생합니다.
+
+<context:component-scan> 요소에는 annotation-config 속성이 있습니다. 그러나 이 주석은 그렇지 않습니다. 
+이는 @ComponentScan을 사용할 때 거의 모든 경우에 기본 주석 구성 처리(예: @Autowired 및 친구 처리)가 가정되기 때문입니다. 
+또한 AnnotationConfigApplicationContext를 사용할 때 주석 구성 프로세서는 항상 등록되므로 @ComponentScan 수준에서 비활성화하려는 
+모든 시도가 무시됩니다.
+
+
+======================================
+9. @RequestMapping
+======================================
+
+@Target(value={TYPE, METHOD})
+@Mapping
+@Reflective(value={ControllerMappingReflectiveProcessor.class})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Annotation for mapping web requests onto methods in request-handling classes with flexible method signatures. 
+
+Both Spring MVC and Spring WebFlux support this annotation through a RequestMappingHandlerMapping and RequestMappingHandlerAdapterin their respective modules and package structure. For the exact list ofsupported handler method arguments and return types in each, please use thereference documentation links below: 
+•Spring MVC Method Argumentsand Return Values 
+•Spring WebFlux Method Argumentsand Return Values 
+
+Note: This annotation can be used both at the class andat the method level. In most cases, at the method level applications willprefer to use one of the HTTP method specific variants @GetMapping, @PostMapping, @PutMapping, @DeleteMapping, or @PatchMapping.
+
+NOTE: When using controller interfaces (e.g. for AOP proxying),make sure to consistently put all your mapping annotations - such as @RequestMapping and @SessionAttributes - onthe controller interface rather than on the implementation class.
+
+---
+
+유연한 메서드 서명을 사용하여 요청 처리 클래스의 메서드에 웹 요청을 매핑하기 위한 주석입니다.
+
+Spring MVC와 Spring WebFlux 모두 해당 모듈 및 패키지 구조에서 RequestMappingHandlerMapping 및 RequestMappingHandlerAdapter를 통해 이 주석을 지원합니다. 지원되는 처리기 메서드 인수 및 각각의 반환 유형에 대한 정확한 목록을 보려면 아래 참조 문서 링크를 사용하세요.
+•Spring MVC 메서드 인수 및 반환 값
+•Spring WebFlux 메서드 인수 및 반환 값
+
+참고: 이 주석은 클래스 및 메서드 수준에서 모두 사용할 수 있습니다. 대부분의 경우 메서드 수준에서 응용 프로그램은 HTTP 메서드별 @GetMapping, @PostMapping, @PutMapping, @DeleteMapping 또는 @PatchMapping 중 하나를 사용하는 것을 선호합니다.
+
+참고: 컨트롤러 인터페이스를 사용할 때(예: AOP 프록시용) 모든 매핑 주석(예: @RequestMapping 및 @SessionAttributes)을 구현 클래스가 아닌 컨트롤러 인터페이스에 일관되게 배치해야 합니다.
+
+
+======================================
+10. @SessionAttributes
+======================================
+
+@Target(value={TYPE})
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+Annotation that indicates the session attributes that a specific handler uses. 
+
+This will typically list the names of model attributes which should betransparently stored in the session or some conversational storage,serving as form-backing beans. Declared at the type level, applyingto the model attributes that the annotated handler class operates on. 
+
+NOTE: Session attributes as indicated using this annotationcorrespond to a specific handler's model attributes, getting transparentlystored in a conversational session. Those attributes will be removed oncethe handler indicates completion of its conversational session. Therefore,use this facility for such conversational attributes which are supposedto be stored in the session temporarily during the course of aspecific handler's conversation. 
+
+For permanent session attributes, e.g. a user authentication object,use the traditional session.setAttribute method instead.Alternatively, consider using the attribute management capabilities of thegeneric org.springframework.web.context.request.WebRequest interface. 
+
+NOTE: When using controller interfaces (e.g. for AOP proxying),make sure to consistently put all your mapping annotations — such as @RequestMapping and @SessionAttributes — onthe controller interface rather than on the implementation class.
+
+---
+
+특정 처리기가 사용하는 세션 속성을 나타내는 주석입니다.
+
+이것은 일반적으로 세션에 투명하게 저장되어야 하는 모델 속성의 이름을 나열합니다. 유형 수준에서 선언되어 주석 처리기 클래스가 작동하는 모델 특성에 적용됩니다.
+
+참고: 이 주석을 사용하여 표시된 세션 속성은 특정 핸들러의 모델 속성에 해당하며 대화 세션에 투명하게 저장됩니다. 핸들러가 대화 세션의 완료를 나타내면 이러한 속성은 제거됩니다. 따라서 특정 핸들러의 대화 과정 중에 일시적으로 세션에 저장되어야 하는 대화 속성에 대해 이 기능을 사용하십시오.
+
+영구 세션 속성의 경우, 예: 사용자 인증 객체인 경우 전통적인 session.setAttribute 메소드를 대신 사용하십시오. 또는 일반 org.springframework.web.context.request.WebRequest 인터페이스의 속성 관리 기능을 사용하는 것을 고려하십시오.
+
+참고: 컨트롤러 인터페이스(예: AOP 프록시용)를 사용할 때 @RequestMapping 및 @SessionAttributes와 같은 모든 매핑 주석을 구현 클래스가 아닌 컨트롤러 인터페이스에 일관되게 배치해야 합니다.
+
+
+======================================
+11. @Mapping 
+======================================
+
+@Target(value={ANNOTATION_TYPE})
+@Retention(value=RUNTIME)
+
+---
+
+Meta annotation that indicates a web mapping annotation.
+
+---
+
+웹 매핑 주석을 나타내는 메타 주석입니다.
+
+
+======================================
+12. @Reflective
+======================================
+
+@Target(value={ANNOTATION_TYPE, TYPE, CONSTRUCTOR, FIELD, METHOD})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Indicate that the annotated element requires reflection. 
+
+When present, either directly or as a meta-annotation, this annotationtriggers the configured processors againstthe annotated element. By default, a reflection hint is registered for theannotated element so that it can be discovered and invoked if necessary.
+
+---
+
+주석이 달린 요소에 반영이 필요함을 나타냅니다.
+
+직접적으로 또는 메타 주석으로 존재하는 경우 이 주석은 주석이 달린 요소에 대해 구성된 프로세서를 트리거합니다. 기본적으로 주석이 달린 요소에 대해 리플렉션 힌트가 등록되어 필요한 경우 검색하고 호출할 수 있습니다.
+
+
+======================================
+13. @SpringBootTest
+======================================
+
+@Target(value={TYPE})
+@BootstrapWith(value=SpringBootTestContextBootstrapper.class)
+@ExtendWith(value={SpringExtension.class})
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+Annotation that can be specified on a test class that runs Spring Boot based tests.
+Provides the following features over and above the regular Spring TestContextFramework: 
+• Uses SpringBootContextLoader as the default ContextLoader when nospecific @ContextConfiguration(loader=...) isdefined.
+• Automatically searches for a @SpringBootConfiguration when nested @Configuration is not used, and no explicit classes arespecified.
+• Allows custom Environment properties to be defined using the properties attribute.
+• Allows application arguments to be defined using the argsattribute.
+• Provides support for different webEnvironment modes, including the ability to start a fully running web server listening on a defined or random port.
+•Registers a TestRestTemplate and/or WebTestClient beanfor use in web tests that are using a fully running web server.
+
+---
+
+Spring Boot 기반 테스트를 실행하는 테스트 클래스에 지정할 수 있는 주석입니다.
+일반 Spring TestContextFramework 이상으로 다음 기능을 제공합니다.
+• 특정 @ContextConfiguration(loader=...)이 정의되지 않은 경우 SpringBootContextLoader를 기본 ContextLoader로 사용합니다.
+• 중첩된 @Configuration이 사용되지 않고 명시적 클래스가 지정되지 않은 경우 자동으로 @SpringBootConfiguration을 검색합니다.
+• properties 특성을 사용하여 사용자 지정 환경 속성을 정의할 수 있습니다.
+• argsattribute를 사용하여 응용 프로그램 인수를 정의할 수 있습니다.
+• 정의된 포트 또는 임의의 포트에서 수신 대기하는 완전히 실행 중인 웹서버를 시작하는 기능을 포함하여,
+  다양한 webEnvironment 모드에 대한 지원을 제공합니다.
+• 완전히 실행되는 웹서버를 사용하는 웹테스트에 사용할 TestRestTemplate 및/또는 WebTestClient 빈을 등록합니다.
+
+
+======================================
+14. @SpringBootConfiguration
+======================================
+
+@Target(value={TYPE})
+@Configuration
+@Indexed
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Indicates that a class provides Spring Boot application @Configuration. Can be used as an alternative to the Spring'sstandard @Configuration annotation so that configuration can be foundautomatically (for example in tests). 
+
+Application should only ever include one @SpringBootConfiguration andmost idiomatic Spring Boot applications will inherit it from @SpringBootApplication.
+
+---
+
+클래스가 Spring Boot 애플리케이션 @Configuration을 제공함을 나타냅니다. 구성을 자동으로 찾을 수 있도록(예: 테스트에서) Spring의 표준 @Configuration 주석에 대한 대안으로 사용할 수 있습니다.
+
+애플리케이션은 하나의 @SpringBootConfiguration만 포함해야 하며 대부분의 관용적 Spring Boot 애플리케이션은 @SpringBootApplication에서 이를 상속합니다.
+
+
+======================================
+15. @ExtendWith
+======================================
+
+@Target(value={TYPE, METHOD, FIELD, PARAMETER})
+@Repeatable(value=Extensions.class)
+@API(status=STABLE, since="5.0")
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+@ExtendWith is a repeatable annotationthat is used to register extensions for the annotatedtest class, test interface, test method, parameter, or field. 
+
+Annotated parameters are supported in test class constructors, in testmethods, and in @BeforeAll, @AfterAll, @BeforeEach,and @AfterEach lifecycle methods. 
+
+@ExtendWith fields may be either static or non-static. 
+
+Inheritance
+
+@ExtendWith fields are inherited from superclasses as long as theyare not hidden or overridden. Furthermore, @ExtendWithfields from superclasses will be registered before @ExtendWith fieldsin subclasses. 
+
+Registration Order
+
+When @ExtendWith is present on a test class, test interface, ortest method or on a parameter in a test method or lifecycle method, thecorresponding extensions will be registered in the order in which the @ExtendWith annotations are discovered. For example, if a test classis annotated with @ExtendWith(A.class) and then with @ExtendWith(B.class), extension A will be registered beforeextension B. 
+
+By default, if multiple extensions are registered on fields via @ExtendWith, they will be ordered using an algorithm that isdeterministic but intentionally nonobvious. This ensures that subsequent runsof a test suite execute extensions in the same order, thereby allowing forrepeatable builds. However, there are times when extensions need to beregistered in an explicit order. To achieve that, you can annotate @ExtendWith fields with @Order.Any @ExtendWith field not annotated with @Order will beordered using the default ordervalue. Note that @RegisterExtension fields can also be ordered with @Order, relative to @ExtendWith fields and other @RegisterExtension fields. 
+
+Supported Extension APIs
+•ExecutionCondition
+•InvocationInterceptor
+•BeforeAllCallback
+•AfterAllCallback
+•BeforeEachCallback
+•AfterEachCallback
+•BeforeTestExecutionCallback
+•AfterTestExecutionCallback
+•TestInstanceFactory
+•TestInstancePostProcessor
+•TestInstancePreDestroyCallback
+•ParameterResolver
+•TestExecutionExceptionHandler
+•TestTemplateInvocationContextProvider
+
+---
+
+@ExtendWith는 주석이 달린 테스트 클래스, 테스트 인터페이스, 테스트 메서드, 매개변수 또는 필드에 대한 확장을 등록하는 데 사용되는 반복 가능한 주석입니다.
+
+주석이 달린 매개변수는 테스트 클래스 생성자, 테스트 메서드, @BeforeAll, @AfterAll, @BeforeEach 및 @AfterEach 수명 주기 메서드에서 지원됩니다.
+
+@ExtendWith 필드는 정적이거나 비정적일 수 있습니다.
+
+계승
+
+@ExtendWith 필드는 숨겨지거나 재정의되지 않는 한 슈퍼클래스에서 상속됩니다. 또한 슈퍼클래스의 @ExtendWithfields는 서브클래스의 @ExtendWith 필드보다 먼저 등록됩니다.
+
+등록순서
+
+@ExtendWith가 테스트 클래스, 테스트 인터페이스, 테스트 메서드 또는 테스트 메서드 또는 수명 주기 메서드의 매개 변수에 있는 경우 해당 확장은 @ExtendWith 주석이 발견된 순서대로 등록됩니다. 예를들어 테스트 클래스에 @ExtendWith(A.class) 주석이 달린 다음 @ExtendWith(B.class) 주석이 달린 경우 확장 A가 확장 B보다 먼저 등록됩니다.
+
+기본적으로 여러 확장이 @ExtendWith를 통해 필드에 등록되면 결정적이지만 의도적으로 명확하지 않은 알고리즘을 사용하여 정렬됩니다. 이렇게 하면 테스트 스위트의 후속 실행이 동일한 순서로 확장을 실행하므로 반복 가능한 빌드가 가능합니다. 그러나 명시적인 순서로 확장을 등록해야 하는 경우가 있습니다. 이를 달성하기 위해 @Order로 @ExtendWith 필드에 주석을 달 수 있습니다. @Order로 주석이 지정되지 않은 모든 @ExtendWith 필드는 기본 ordervalue를 사용하여 정렬됩니다. @RegisterExtension 필드는 @ExtendWith 필드 및 기타 @RegisterExtension 필드와 관련하여 @Order로 주문할 수도 있습니다.
+
+지원되는 확장 API
+•실행조건
+•호출 인터셉터
+•비포올콜백
+•AfterAllCallback
+•BeforeEachCallback
+•AfterEachCallback
+•BeforeTestExecutionCallback
+•AfterTestExecutionCallback
+•TestInstanceFactory
+•TestInstancePostProcessor
+•TestInstancePreDestroyCallback
+•파라미터 리졸버
+•TestExecutionExceptionHandler
+•TestTemplateInvocationContextProvider
+
+
+======================================
+16. @BootstrapWith
+======================================
+
+@Target(value={TYPE})
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+@BootstrapWith defines class-level metadata that is used to determinehow to bootstrap the Spring TestContext Framework. 
+
+This annotation may also be used as a meta-annotation to createcustom composed annotations. As of Spring Framework 5.1, a locallydeclared @BootstrapWith annotation (i.e., one that is directlypresent on the current test class) will override any meta-presentdeclarations of @BootstrapWith. 
+
+As of Spring Framework 5.3, this annotation will be inherited from anenclosing test class by default. See @NestedTestConfiguration for details.
+
+---
+
+@BootstrapWith는 Spring TestContext Framework를 부트스트랩하는 방법을 결정하는 데 사용되는 클래스 수준 메타데이터를 정의합니다.
+
+이 주석은 사용자 정의 구성 주석을 생성하기 위한 메타 주석으로도 사용될 수 있습니다. Spring Framework 5.1에서 로컬로 선언된 @BootstrapWith 주석(즉, 현재 테스트 클래스에 직접 표시되는 주석)은 @BootstrapWith의 모든 메타 표시 선언을 재정의합니다.
+
+Spring Framework 5.3부터 이 주석은 기본적으로 둘러싸는 테스트 클래스에서 상속됩니다. 자세한 내용은 @NestedTestConfiguration을 참조하십시오.
+
+
+======================================
+17. SpringExtension.class 
+======================================
+
+org.springframework.test.context.junit.jupiter.SpringExtension
+
+---
+
+SpringExtension integrates the Spring TestContext Frameworkinto JUnit 5's Jupiter programming model. 
+
+To use this extension, simply annotate a JUnit Jupiter based test class with @ExtendWith(SpringExtension.class), @SpringJUnitConfig, or @SpringJUnitWebConfig.
+
+---
+
+SpringExtension은 Spring TestContext Framework를 JUnit 5의 Jupiter 프로그래밍 모델에 통합합니다.
+
+이 확장을 사용하려면 JUnit Jupiter 기반 테스트 클래스에 @ExtendWith(SpringExtension.class), @SpringJUnitConfig 또는 @SpringJUnitWebConfig로 주석을 답니다.
+
+
+
+======================================
+18. @SpringJUnitConfig 
+======================================
+
+@ExtendWith(value={SpringExtension.class})
+@ContextConfiguration
+@Target(value={TYPE})
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+@SpringJUnitConfig is a composed annotation that combines @ExtendWith(SpringExtension.class) from JUnit Jupiter with @ContextConfiguration from the Spring TestContextFramework. 
+
+As of Spring Framework 5.3, this annotation will effectively be inheritedfrom an enclosing test class by default. See @NestedTestConfigurationfor details.
+
+---
+
+@SpringJUnitConfig는 JUnit Jupiter의 @ExtendWith(SpringExtension.class)와 Spring TestContextFramework의 @ContextConfiguration을 결합한 합성 주석입니다.
+
+Spring Framework 5.3부터 이 주석은 기본적으로 둘러싸는 테스트 클래스에서 효과적으로 상속됩니다. 자세한 내용은 @NestedTestConfiguration을 참조하십시오.
+
+
+======================================
+19. @SpringJUnitWebConfig
+======================================
+
+@ExtendWith(value={SpringExtension.class})
+@ContextConfiguration
+@WebAppConfiguration
+@Target(value={TYPE})
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+@SpringJUnitWebConfig is a composed annotation that combines @ExtendWith(SpringExtension.class) from JUnit Jupiter with @ContextConfiguration and @WebAppConfiguration from the Spring TestContextFramework. 
+
+As of Spring Framework 5.3, this annotation will effectively be inheritedfrom an enclosing test class by default. See @NestedTestConfigurationfor details.
+
+---
+
+@SpringJUnitWebConfig는 JUnit Jupiter의 @ExtendWith(SpringExtension.class)를 Spring TestContextFramework의 @ContextConfiguration 및 @WebAppConfiguration과 결합한 구성 주석입니다.
+
+Spring Framework 5.3부터 이 주석은 기본적으로 둘러싸는 테스트 클래스에서 효과적으로 상속됩니다. 자세한 내용은 @NestedTestConfiguration을 참조하십시오.
+
+
+======================================
+20. @WebAppConfiguration 
+======================================
+
+@Target(value={TYPE})
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+@WebAppConfiguration is a class-level annotation that is used todeclare that the ApplicationContext loaded for an integration testshould be a WebApplicationContext. 
+
+The presence of @WebAppConfiguration on a test class indicates thata WebApplicationContext should be loaded for the test using a defaultfor the path to the root of the web application. To override the default,specify an explicit resource path via the value attribute. 
+
+Note that @WebAppConfiguration must be used in conjunction with @ContextConfiguration,either within a single test class or within a test class hierarchy. 
+
+This annotation may be used as a meta-annotation to create custom composed annotations. 
+
+As of Spring Framework 5.3, this annotation will be inherited from anenclosing test class by default. See @NestedTestConfigurationfor details.
+
+---
+
+@WebAppConfiguration은 통합 테스트를 위해 로드된 ApplicationContext가 WebApplicationContext여야 함을 선언하는 데 사용되는 클래스 수준 주석입니다.
+
+테스트 클래스에 @WebAppConfiguration이 있다는 것은 웹 애플리케이션의 루트에 대한 경로에 대한 기본값을 사용하여 테스트를 위해 WebApplicationContext를 로드해야 함을 나타냅니다. 기본값을 재정의하려면 value 특성을 통해 명시적 리소스 경로를 지정합니다.
+
+@WebAppConfiguration은 단일 테스트 클래스 또는 테스트 클래스 계층 구조 내에서 @ContextConfiguration과 함께 사용해야 합니다.
+
+이 주석은 맞춤 구성된 주석을 만들기 위한 메타 주석으로 사용될 수 있습니다.
+
+Spring Framework 5.3부터 이 주석은 기본적으로 둘러싸는 테스트 클래스에서 상속됩니다. 자세한 내용은 @NestedTestConfiguration을 참조하십시오.
+
+
+======================================
+21. @ContextConfiguration
+======================================
+
+@Target(value={TYPE})
+@Retention(value=RUNTIME)
+@Documented
+@Inherited
+
+---
+
+@ContextConfiguration defines class-level metadata that is used to determinehow to load and configure an ApplicationContext for integration tests. 
+
+---
+
+@ContextConfiguration은 통합 테스트를 위해 ApplicationContext를 로드하고 구성하는 방법을 결정하는 데 사용되는 클래스 수준 메타데이터를 정의합니다.
+
+
+======================================
+22. @LocalServerPort
+======================================
+
+@Target(value={FIELD, METHOD, PARAMETER, ANNOTATION_TYPE})
+@Value(value="${server.port}")
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Annotation at the field or method/constructor parameter level that injects the HTTPserver port that was allocated at runtime. Provides a convenient alternative for @Value("${server.port}").
+
+---
+
+런타임 시 할당된 HTTPserver 포트를 주입하는 필드 또는 메서드/생성자 매개변수 수준의 주석입니다. @Value("${server.port}")에 대한 편리한 대안을 제공합니다.
+
+
+======================================
+23. @Value
+======================================
+
+@Target(value={FIELD, METHOD, PARAMETER, ANNOTATION_TYPE})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Annotation used at the field or method/constructor parameter levelthat indicates a default value expression for the annotated element. 
+
+Typically used for expression-driven or property-driven dependency injection.Also supported for dynamic resolution of handler method arguments — forexample, in Spring MVC. 
+
+A common use case is to inject values using #{systemProperties.myProp} style SpEL (Spring Expression Language)expressions. Alternatively, values may be injected using ${my.app.myProp} style property placeholders. 
+
+Note that actual processing of the @Value annotation is performedby a BeanPostProcessor which in turn means that you cannot use @Value within BeanPostProcessor or BeanFactoryPostProcessortypes. Please consult the javadoc for the AutowiredAnnotationBeanPostProcessorclass (which, by default, checks for the presence of this annotation).
+
+---
+
+주석이 달린 요소의 기본값 표현식을 나타내는 필드 또는 메서드/생성자 매개변수 수준에서 사용되는 주석입니다.
+일반적으로 식 기반 또는 속성 기반 종속성 주입에 사용됩니다. 예를 들어 Spring MVC에서 처리기 메서드 인수의 동적 해결에도 지원됩니다.
+
+일반적인 사용 사례는 #{systemProperties.myProp} 스타일 SpEL(Spring Expression Language) 표현식을 사용하여 값을 주입하는 것입니다. 또는 ${my.app.myProp} 스타일 속성 자리 표시자를 사용하여 값을 주입할 수 있습니다.
+
+@Value 주석의 실제 처리는 BeanPostProcessor에 의해 수행되며 이는 BeanPostProcessor 또는 BeanFactoryPostProcessortypes 내에서 @Value를 사용할 수 없음을 의미합니다. AutowiredAnnotationBeanPostProcessorclass(기본적으로 이 주석의 존재 여부를 확인함)에 대한 javadoc을 참조하십시오.
+
+
+======================================
+24. @SessionAttribute
+======================================
+
+@Target(value={PARAMETER})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Annotation to bind a method parameter to a session attribute. 
+
+The main motivation is to provide convenient access to existing, permanentsession attributes (e.g. user authentication object) with an optional/requiredcheck and a cast to the target method parameter type. 
+
+For use cases that require adding or removing session attributes considerinjecting org.springframework.web.context.request.WebRequest or jakarta.servlet.http.HttpSession into the controller method. 
+
+For temporary storage of model attributes in the session as part of theworkflow for a controller, consider using SessionAttributes instead.
+
+---
+
+메서드 매개변수를 세션 속성에 바인딩하기 위한 주석입니다.
+
+주요 동기는 선택적/필수 검사 및 대상 메서드 매개 변수 유형으로의 캐스트를 통해 기존 영구 세션 속성(예: 사용자 인증 개체)에 대한 편리한 액세스를 제공하는 것입니다.
+
+세션 속성을 추가하거나 제거해야 하는 사용 사례의 경우 org.springframework.web.context.request.WebRequest 또는 jakarta.servlet.http.HttpSession을 컨트롤러 메서드에 주입하는 것을 고려하십시오.
+
+컨트롤러에 대한 작업 흐름의 일부로 세션에 모델 속성을 임시로 저장하려면 대신 SessionAttributes를 사용하는 것이 좋습니다.
+
+
+======================================
+25. @AutoConfiguration
+======================================
+
+@Target(value={TYPE})
+@Configuration(proxyBeanMethods=false)
+@AutoConfigureBefore
+@AutoConfigureAfter
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Indicates that a class provides configuration that can be automatically applied bySpring Boot. Auto-configuration classes are regular @Configuration with the exception thatConfiguration#proxyBeanMethods() proxyBeanMethods is always false.They are located using ImportCandidates. 
+
+Generally auto-configuration classes are marked as @Conditional(most often using @ConditionalOnClass and @ConditionalOnMissingBean annotations).
+
+---
+
+클래스가 Spring Boot에서 자동으로 적용할 수 있는 구성을 제공함을 나타냅니다. 자동구성 클래스는 Configuration#proxyBeanMethods() proxyBeanMethods가 항상 false라는 점을 제외하면 일반 @Configuration입니다. ImportCandidates를 사용하여 위치를 찾습니다.
+
+일반적으로 자동구성 클래스는 @Conditional(대부분 @ConditionalOnClass 및 @ConditionalOnMissingBean 주석 사용)으로 표시됩니다.
+
+
+
+======================================
+26. @ConditionalOnClass
+======================================
+
+@Target(value={TYPE, METHOD})
+@Conditional(value={OnClassCondition.class})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+@Conditional that only matches when the specified classes are onthe classpath. 
+
+A Class value can be safely specified on @Configuration classes as the annotation metadata is parsed by using ASM beforethe class is loaded. If a class reference cannot be used then a name String attribute can be used. 
+
+Note: Extra care must be taken when using @ConditionalOnClass on @Bean methods where typically the return type is the target of the condition.Before the condition on the method applies, the JVM will have loaded the class andpotentially processed method references which will fail if the class is not present. Tohandle this scenario, a separate @Configuration class should be used to isolatethe condition. For example: 
+ @AutoConfiguration
+ public class MyAutoConfiguration {
+
+ 	@Configuration(proxyBeanMethods = false)
+ 	@ConditionalOnClass(SomeService.class)
+ 	public static class SomeServiceConfiguration {
+
+ 		@Bean
+ 		@ConditionalOnMissingBean
+ 		public SomeService someService() {
+ 			return new SomeService();
+ 		}
+
+ 	}
+
+ }
+
+---
+
+@지정된 클래스가 클래스경로에 있을 때만 일치하는 조건입니다.
+
+클래스가 로드되기 전에 주석 메타데이터가 ASM을 사용하여 구문분석되므로 @Configuration 클래스에 Class 값을 안전하게 지정할 수 있습니다. 
+클래스 참조를 사용할 수 없는 경우 이름 문자열 특성을 사용할 수 있습니다.
+
+참고: 일반적으로 반환유형이 조건의 대상인 @Bean 메서드에서 @ConditionalOnClass를 사용할 때는 각별한 주의가 필요합니다. 
+메서드의 조건이 적용되기 전에 JVM은 클래스를 로드하고 잠재적으로 다음과 같은 경우 실패할 메서드 참조를 처리합니다. 
+수업이 없습니다. 이 시나리오를 처리하려면 별도의 @Configuration 클래스를 사용하여 조건을 격리해야 합니다. 
+
+예를 들어:
+
+  	@AutoConfiguration
+	public class MyAutoConfiguration {
+
+		@Configuration(proxyBeanMethods = false)
+		@ConditionalOnClass(SomeService.class)
+		public static class SomeServiceConfiguration {
+
+			@Bean
+			@ConditionalOnMissingBean
+			public SomeService someService() {
+				return new SomeService();
+			}
+
+		}
+
+	}
+
+
+======================================
+27. @ConditionalOnMissingBean 
+======================================
+
+@Target(value={TYPE, METHOD})
+@Conditional(value={OnBeanCondition.class})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+@Conditional that only matches when no beans meeting the specifiedrequirements are already contained in the BeanFactory. None of the requirementsmust be met for the condition to match and the requirements do not have to be met bythe same bean. 
+
+When placed on a @Bean method, the bean class defaults to the return type ofthe factory method: 
+ @Configuration
+ public class MyAutoConfiguration {
+
+     @ConditionalOnMissingBean
+     @Bean
+     public MyService myService() {
+         ...
+     }
+
+ }
+
+In the sample above the condition will match if no bean of type MyService isalready contained in the BeanFactory. 
+
+The condition can only match the bean definitions that have been processed by theapplication context so far and, as such, it is strongly recommended to use thiscondition on auto-configuration classes only. If a candidate bean may be created byanother auto-configuration, make sure that the one using this condition runs after.
+
+---
+
+@Conditional 지정된 요구 사항을 충족하는 Bean이 이미 BeanFactory에 포함되어 있지 않은 경우에만 일치하는 조건입니다. 
+조건이 일치하려면 어떤 요구사항도 충족되지 않아야 하며 요구사항은 동일한 bean에 의해 충족될 필요가 없습니다.
+
+@Bean 메소드에 배치될 때 Bean 클래스는 기본적으로 팩토리 메소드의 리턴유형으로 설정됩니다.
+
+ @Configuration
+ public class MyAutoConfiguration {
+
+     @ConditionalOnMissingBean
+     @Bean
+     public MyService myService() {
+         ...
+     }
+
+ }
+
+위의 샘플에서 MyService 유형의 빈이 이미 BeanFactory에 포함되어 있지 않으면 조건이 일치합니다.
+
+조건은 지금까지 애플리케이션 컨텍스트에 의해 처리된 빈 정의와만 일치할 수 있으므로 자동 구성 클래스에서만 이 조건을 사용하는 것이 좋습니다. 다른 자동 설정에 의해 후보 빈이 생성될 수 있는 경우 이 조건을 사용하는 빈이 이후에 실행되는지 확인하십시오.
+
+
+======================================
+28. @EnableConfigurationProperties
+======================================
+
+@Target(value={TYPE})
+@Import(value={EnableConfigurationPropertiesRegistrar.class})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Enable support for @ConfigurationProperties annotated beans. @ConfigurationProperties beans can be registered in the standard way(for example using @Bean methods) or, for convenience, can be specifieddirectly on this annotation.
+
+---
+
+@ConfigurationProperties annotated beans에 대한 지원을 활성화합니다.
+@ConfigurationProperties 빈은 표준 방식(예: @Bean 메서드 사용)으로 등록하거나 편의상 이 주석에 직접 지정할 수 있습니다.
+
+
+======================================
+29. @Import
+======================================
+
+@Target(value={TYPE})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Indicates one or more component classes to import — typically @Configuration classes. 
+
+Provides functionality equivalent to the <import/> element in Spring XML.Allows for importing @Configuration classes, ImportSelector and ImportBeanDefinitionRegistrar implementations, as well as regular componentclasses (as of 4.2; analogous to AnnotationConfigApplicationContext.register). 
+
+@Bean definitions declared in imported @Configuration classes should beaccessed by using @Autowiredinjection. Either the bean itself can be autowired, or the configuration class instancedeclaring the bean can be autowired. The latter approach allows for explicit, IDE-friendlynavigation between @Configuration class methods. 
+
+May be declared at the class level or as a meta-annotation. 
+
+If XML or other non-@Configuration bean definition resources need to beimported, use the @ImportResource annotation instead.
+
+---
+
+가져올 하나 이상의 구성 요소 클래스(일반적으로 @Configuration 클래스)를 나타냅니다.
+
+Spring XML의 <import/> 요소에 해당하는 기능을 제공합니다. @Configuration 클래스, ImportSelector 및 ImportBeanDefinitionRegistrar 구현뿐만 아니라 일반 구성 요소 클래스(4.2부터; AnnotationConfigApplicationContext.register와 유사)를 가져올 수 있습니다.
+
+가져온 @Configuration 클래스에서 선언된 @Bean 정의는 @Autowiredinjection을 사용하여 액세스해야 합니다. 빈 자체가 자동 연결되거나 빈을 선언하는 구성 클래스 인스턴스가 자동 연결될 수 있습니다. 후자의 접근 방식은 @Configuration 클래스 메서드 간에 명시적이고 IDE 친화적인 탐색을 허용합니다.
+
+클래스 수준에서 선언하거나 메타 주석으로 선언할 수 있습니다.
+
+XML 또는 기타 비 @Configuration 빈 정의 리소스를 가져와야 하는 경우 @ImportResource 주석을 대신 사용하십시오.
+
+
+======================================
+30. @Conditional
+======================================
+
+@Target(value={TYPE, METHOD})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Indicates that a component is only eligible for registration when all specified conditions match. 
+
+A condition is any state that can be determined programmaticallybefore the bean definition is due to be registered (see Condition for details). 
+
+The @Conditional annotation may be used in any of the following ways: 
+•as a type-level annotation on any class directly or indirectly annotated with @Component, including @Configuration classes
+•as a meta-annotation, for the purpose of composing custom stereotypeannotations
+•as a method-level annotation on any @Bean method
+
+If a @Configuration class is marked with @Conditional,all of the @Bean methods, @Import annotations, and @ComponentScan annotations associated with thatclass will be subject to the conditions. 
+
+NOTE: Inheritance of @Conditional annotationsis not supported; any conditions from superclasses or from overriddenmethods will not be considered. In order to enforce these semantics, @Conditional itself is not declared as @Inherited; furthermore, anycustom composed annotation that is meta-annotated with @Conditional must not be declared as @Inherited.
+
+---
+
+지정된 모든 조건이 일치하는 경우에만 구성요소가 등록될 수 있음을 나타냅니다.
+
+조건은 빈 정의가 등록되기 전에 프로그램적으로 결정될 수 있는 모든 상태입니다(자세한 내용은 조건 참조).
+
+@Conditional 어노테이션은 다음과 같은 방법으로 사용할 수 있습니다.
+• @Configuration 클래스를 포함하여 @Component로 직접 또는 간접적으로 주석이 달린 모든 클래스의 유형 수준 주석으로
+•사용자 지정 스테레오타입 주석을 구성하기 위한 메타 주석으로
+•모든 @Bean 메서드에 대한 메서드 수준 주석으로
+
+@Configuration 클래스가 @Conditional로 표시되면 해당 클래스와 관련된 모든 @Bean 메서드, @Import 주석 및 @ComponentScan 주석이 조건의 적용을 받습니다.
+
+참고: @Conditional 주석의 상속은 지원되지 않습니다. 수퍼클래스 또는 재정의된 메서드의 조건은 고려되지 않습니다. 이러한 의미 체계를 적용하기 위해 @Conditional 자체는 @Inherited로 선언되지 않습니다. 또한 @Conditional로 메타 주석이 추가된 사용자 정의 구성 주석은 @Inherited로 선언하면 안 됩니다.
+
+
+======================================
+31. @ConditionalOnMissingClass
+======================================
+
+@Target(value={TYPE, METHOD})
+@Conditional(value={OnClassCondition.class})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+@Conditional that only matches when the specified classes are noton the classpath.
+
+---
+
+지정된 클래스가 클래스 경로에 없을 때만 일치하는 @조건부.
+
+
+======================================
+32. @ConditionalOnBean
+======================================
+
+@Target(value={TYPE, METHOD})
+@Conditional(value={OnBeanCondition.class})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+@Conditional that only matches when beans meeting all the specifiedrequirements are already contained in the BeanFactory. All the requirementsmust be met for the condition to match, but they do not have to be met by the samebean. 
+
+When placed on a @Bean method, the bean class defaults to the return type ofthe factory method: 
+ @Configuration
+ public class MyAutoConfiguration {
+
+     @ConditionalOnBean
+     @Bean
+     public MyService myService() {
+         ...
+     }
+
+ }
+
+In the sample above the condition will match if a bean of type MyService isalready contained in the BeanFactory. 
+
+The condition can only match the bean definitions that have been processed by theapplication context so far and, as such, it is strongly recommended to use thiscondition on auto-configuration classes only. If a candidate bean may be created byanother auto-configuration, make sure that the one using this condition runs after.
+
+---
+
+@Conditional 지정된 모든 요구 사항을 충족하는 Bean이 이미 BeanFactory에 포함되어 있는 경우에만 일치하는 조건입니다. 
+조건이 일치하려면 모든 요구 사항이 충족되어야 하지만 동일한 bean이 충족할 필요는 없습니다.
+
+@Bean 메소드에 배치될 때 Bean 클래스는 기본적으로 팩토리 메소드의 리턴 유형으로 설정됩니다.
+ @Configuration
+ public class MyAutoConfiguration {
+
+     @ConditionalOnBean
+     @Bean
+     public MyService myService() {
+         ...
+     }
+
+ }
+
+위의 샘플에서 MyService 유형의 빈이 BeanFactory에 이미 포함되어 있으면 조건이 일치합니다.
+
+조건은 지금까지 애플리케이션 컨텍스트에 의해 처리된 빈 정의와만 일치할 수 있으므로 자동 구성 클래스에서만 이 조건을 사용하는 것이 좋습니다. 다른 자동 설정에 의해 후보 빈이 생성될 수 있는 경우 이 조건을 사용하는 빈이 이후에 실행되는지 확인하십시오.
+
+
+======================================
+33. ConditionalOnExpression
+======================================
+
+@Target(value={TYPE, METHOD})
+@Conditional(value={OnExpressionCondition.class})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Configuration annotation for a conditional element that depends on the value of a SpELexpression. 
+
+Referencing a bean in the expression will cause that bean to be initialized very earlyin context refresh processing. As a result, the bean won't be eligible forpost-processing (such as configuration properties binding) and its state may beincomplete.
+
+---
+
+SpELexpression의 값에 따라 달라지는 조건부 요소에 대한 구성 주석입니다.
+
+식에서 빈을 참조하면 해당 빈이 컨텍스트 새로 고침 처리에서 매우 초기에 초기화됩니다.
+결과적으로 bean은 사후 처리(예: 구성 속성 바인딩)에 적합하지 않으며 해당 상태가 불완전할 수 있습니다.
+
+
+======================================
+34. @ConditionalOnWebApplication
+======================================
+
+@Target(value={TYPE, METHOD})
+@Conditional(value={OnWebApplicationCondition.class})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+@Conditional that matches when the application is a webapplication. By default, any web application will match but it can be narrowed usingthe type() attribute.
+
+---
+
+애플리케이션이 웹 애플리케이션일 때 일치하는 @조건부입니다.
+기본적으로 모든 웹 애플리케이션이 일치하지만 type() 특성을 사용하여 범위를 좁힐 수 있습니다.
+
+
+======================================
+35. @ConditionalOnNotWebApplication
+======================================
+
+@Target(value={TYPE, METHOD})
+@Conditional(value={OnWebApplicationCondition.class})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+@Conditional that only matches when the application context is not a web application context.
+
+---
+
+@Conditional 애플리케이션 컨텍스트가 웹 애플리케이션 컨텍스트가 아닌 경우에만 일치합니다.
+
+
+======================================
+36. @ConditionalOnSingleCandidate
+======================================
+
+@Target(value={TYPE, METHOD})
+@Conditional(value={OnBeanCondition.class})
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+@Conditional that only matches when a bean of the specified classis already contained in the BeanFactory and a single candidate can bedetermined. 
+
+The condition will also match if multiple matching bean instances are already containedin the BeanFactory but a primary candidate has been defined; essentially, thecondition match if auto-wiring a bean with the defined type will succeed. 
+
+The condition can only match the bean definitions that have been processed by theapplication context so far and, as such, it is strongly recommended to use thiscondition on auto-configuration classes only. If a candidate bean may be created byanother auto-configuration, make sure that the one using this condition runs after.
+
+---
+
+지정된 클래스의 빈이 이미 BeanFactory에 포함되어 있고 단일 후보가 결정될 수 있는 경우에만 일치하는 @Conditional.
+
+일치하는 여러 빈 인스턴스가 이미 BeanFactory에 포함되어 있지만 기본 후보가 정의된 경우에도 조건이 일치합니다. 기본적으로 정의된 유형으로 빈을 자동 연결하면 조건이 일치합니다.
+
+조건은 지금까지 애플리케이션 컨텍스트에 의해 처리된 빈 정의와만 일치할 수 있으므로 자동 구성 클래스에서만 이 조건을 사용하는 것이 좋습니다. 다른 자동 설정에 의해 후보 빈이 생성될 수 있는 경우 이 조건을 사용하는 빈이 이후에 실행되는지 확인하십시오.
+
+
+======================================
+37. @ConfigurationProperties
+======================================
+
+@Target(value={TYPE, METHOD})
+@Indexed
+@Retention(value=RUNTIME)
+@Documented
+
+---
+
+Annotation for externalized configuration. Add this to a class definition or a @Bean method in a @Configuration class if you want to bind and validatesome external Properties (e.g. from a .properties file). 
+
+Binding is either performed by calling setters on the annotated class or, if @ConstructorBinding is in use, by binding to the constructorparameters. 
+
+Note that contrary to @Value, SpEL expressions are not evaluated since propertyvalues are externalized.
+
+---
+
+외부화된 구성에 대한 주석입니다. 일부 외부 속성(예: .properties 파일에서)을 바인딩하고 유효성을 검사하려면
+@Configuration 클래스의 클래스 정의 또는 @Bean 메서드에 이것을 추가하십시오.
+
+바인딩은 주석이 달린 클래스에서 setter를 호출하거나 @ConstructorBinding이 사용 중인 경우 생성자 매개 변수에 바인딩하여 수행됩니다.
+
+@Value와 달리 SpEL 표현식은 속성 값이 외부화되기 때문에 평가되지 않습니다.
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
+
+======================================
+19. 
+======================================
+
+---
+
+---
+
